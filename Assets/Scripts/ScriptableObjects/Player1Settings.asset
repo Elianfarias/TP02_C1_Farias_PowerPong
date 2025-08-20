@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Player1Settings
   m_EditorClassIdentifier: 
   playerName: Juan
-  speedMovement: 0.20265067
+  speedMovement: 0.1
   speedRotation: 10

@@ -2,6 +2,8 @@ using System;
 using TMPro;
 using TMPro.EditorUtilities;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIPlayerSettings : MonoBehaviour
@@ -13,11 +15,13 @@ public class UIPlayerSettings : MonoBehaviour
     [SerializeField] private PlayerSettings player1Settings;
     [SerializeField] private TMP_InputField inputName1;
     [SerializeField] private Slider sliderSpeedMovement1;
+    [SerializeField] private TMP_Text txtSpeedValue1;
 
     [Header("Settings player 2")]
     [SerializeField] private PlayerSettings player2Settings;
     [SerializeField] private TMP_InputField inputName2;
     [SerializeField] private Slider sliderSpeedMovement2;
+    [SerializeField] private TMP_Text txtSpeedValue2;
 
     [Header("Buttons Setting")]
     [SerializeField] private Button btnBack;
@@ -28,6 +32,9 @@ public class UIPlayerSettings : MonoBehaviour
     {
         btnBack.onClick.AddListener(OnBackPause);
         btnSave.onClick.AddListener(OnSaveClicked);
+        sliderSpeedMovement1.onValueChanged.AddListener(OnValueChangeSpeedPlayer1);
+        sliderSpeedMovement2.onValueChanged.AddListener(OnValueChangeSpeedPlayer2);
+
         UIMainMenu = GetComponent<UIMainMenu>();
     }
 
@@ -67,5 +74,15 @@ public class UIPlayerSettings : MonoBehaviour
         player2Settings.SetSpeedMovement(sliderSpeedMovement2.value);
 
         OnBackPause();
+    }
+
+    private void OnValueChangeSpeedPlayer1(float v)
+    {
+        txtSpeedValue1.text = v.ToString("0.00");
+    }
+
+    private void OnValueChangeSpeedPlayer2(float v)
+    {
+        txtSpeedValue2.text = v.ToString("0.00");
     }
 }
