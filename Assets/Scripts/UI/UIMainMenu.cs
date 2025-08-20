@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public class UIMainMenu : MonoBehaviour
     [SerializeField] private Button btnStart;
     [SerializeField] private Button btnSettings;
     [SerializeField] private Button btnCredits;
+    [SerializeField] private Button btnExit;
     [SerializeField] private Button btnBackCredits;
 
     private bool isPause = false;
@@ -20,6 +22,7 @@ public class UIMainMenu : MonoBehaviour
         btnStart.onClick.AddListener(TogglePause);
         btnSettings.onClick.AddListener(OnSettingClicked);
         btnCredits.onClick.AddListener(OnCreditClicked);
+        btnExit.onClick.AddListener(OnExitClicked);
         btnBackCredits.onClick.AddListener(OnBackCredits);
     }
 
@@ -46,21 +49,32 @@ public class UIMainMenu : MonoBehaviour
         else
             Time.timeScale = 1f;
 
+        if(panelCredits.activeSelf)
+            panelCredits.SetActive(false);
+        if (panelSettings.activeSelf)
+            panelCredits.SetActive(false);
+
         panelMainMenu.SetActive(isPause);
     }
 
     private void OnSettingClicked()
     {
-        panelSettings.SetActive(true);
         TogglePause();
+        panelSettings.SetActive(true);
         Time.timeScale = 0f;
     }
 
     private void OnCreditClicked()
     {
-        panelCredits.SetActive(true);
         TogglePause();
+        panelCredits.SetActive(true);
         Time.timeScale = 0f;
+    }
+
+    private void OnExitClicked()
+    {
+        EditorApplication.isPlaying = false;
+        Application.Quit();
     }
 
     private void OnBackCredits()
