@@ -1,0 +1,71 @@
+using System;
+using TMPro;
+using TMPro.EditorUtilities;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class UIPlayerSettings : MonoBehaviour
+{
+    [SerializeField] private GameObject panelSettings;
+    private UIMainMenu UIMainMenu;
+
+    [Header("Settings player 1")]
+    [SerializeField] private PlayerSettings player1Settings;
+    [SerializeField] private TMP_InputField inputName1;
+    [SerializeField] private Slider sliderSpeedMovement1;
+
+    [Header("Settings player 2")]
+    [SerializeField] private PlayerSettings player2Settings;
+    [SerializeField] private TMP_InputField inputName2;
+    [SerializeField] private Slider sliderSpeedMovement2;
+
+    [Header("Buttons Setting")]
+    [SerializeField] private Button btnBack;
+    [SerializeField] private Button btnSave;
+
+
+    private void Awake()
+    {
+        btnBack.onClick.AddListener(OnBackPause);
+        btnSave.onClick.AddListener(OnSaveClicked);
+        UIMainMenu = GetComponent<UIMainMenu>();
+    }
+
+    private void Start()
+    {
+        inputName1.text = player1Settings.PlayerName;
+        inputName2.text = player2Settings.PlayerName;
+
+        sliderSpeedMovement1.value = player1Settings.SpeedMovement;
+        sliderSpeedMovement2.value = player2Settings.SpeedMovement;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            panelSettings.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        btnBack.onClick.RemoveAllListeners();
+        btnSave.onClick.RemoveAllListeners();
+    }
+
+    private void OnBackPause()
+    {
+        panelSettings.SetActive(false);
+        UIMainMenu.TogglePause();
+    }
+
+    private void OnSaveClicked()
+    {
+        player1Settings.SetPlayerName(inputName1.text);
+        player2Settings.SetPlayerName(inputName2.text);
+
+        player1Settings.SetSpeedMovement(sliderSpeedMovement1.value);
+        player2Settings.SetSpeedMovement(sliderSpeedMovement2.value);
+
+        OnBackPause();
+    }
+}
