@@ -9,7 +9,6 @@ using UnityEngine.UI;
 public class UIPlayerSettings : MonoBehaviour
 {
     [SerializeField] private GameObject panelSettings;
-    private UIMainMenu UIMainMenu;
 
     [Header("Settings player 1")]
     [SerializeField] private PlayerSettings player1Settings;
@@ -35,7 +34,6 @@ public class UIPlayerSettings : MonoBehaviour
         sliderSpeedMovement1.onValueChanged.AddListener(OnValueChangeSpeedPlayer1);
         sliderSpeedMovement2.onValueChanged.AddListener(OnValueChangeSpeedPlayer2);
 
-        UIMainMenu = GetComponent<UIMainMenu>();
     }
 
     private void Start()
@@ -62,7 +60,7 @@ public class UIPlayerSettings : MonoBehaviour
     private void OnBackPause()
     {
         panelSettings.SetActive(false);
-        UIMainMenu.TogglePause();
+        UIMainMenu.Instance.ToggleUIMainMenu();
     }
 
     private void OnSaveClicked()

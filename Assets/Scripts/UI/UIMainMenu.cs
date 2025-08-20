@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class UIMainMenu : MonoBehaviour
 {
+    public static UIMainMenu Instance { get; private set; }
+    public bool isPause = false;
+
     [SerializeField] private GameObject panelMainMenu;
     [SerializeField] private GameObject panelSettings;
     [SerializeField] private GameObject panelCredits;
@@ -15,10 +18,11 @@ public class UIMainMenu : MonoBehaviour
     [SerializeField] private Button btnExit;
     [SerializeField] private Button btnBackCredits;
 
-    private bool isPause = false;
-
     private void Awake()
     {
+        if (Instance == null)
+            Instance = this;
+
         btnStart.onClick.AddListener(TogglePause);
         btnSettings.onClick.AddListener(OnSettingClicked);
         btnCredits.onClick.AddListener(OnCreditClicked);
@@ -29,7 +33,12 @@ public class UIMainMenu : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
-            TogglePause();
+        {
+            if(!panelMainMenu.activeSelf && isPause)
+                ToggleUIMainMenu();
+            else
+                TogglePause();
+        }
     }
 
     private void OnDestroy()
@@ -49,26 +58,29 @@ public class UIMainMenu : MonoBehaviour
         else
             Time.timeScale = 1f;
 
-        if(panelCredits.activeSelf)
+        ToggleUIMainMenu();
+    }
+
+    public void ToggleUIMainMenu()
+    {
+        if (panelCredits.activeSelf)
             panelCredits.SetActive(false);
         if (panelSettings.activeSelf)
             panelCredits.SetActive(false);
 
-        panelMainMenu.SetActive(isPause);
+        panelMainMenu.SetActive(!panelMainMenu.activeSelf);
     }
 
     private void OnSettingClicked()
     {
-        TogglePause();
+        ToggleUIMainMenu();
         panelSettings.SetActive(true);
-        Time.timeScale = 0f;
     }
 
     private void OnCreditClicked()
     {
-        TogglePause();
+        ToggleUIMainMenu();
         panelCredits.SetActive(true);
-        Time.timeScale = 0f;
     }
 
     private void OnExitClicked()
@@ -79,7 +91,6 @@ public class UIMainMenu : MonoBehaviour
 
     private void OnBackCredits()
     {
-        panelCredits.SetActive(false);
-        TogglePause();
+        ToggleUIMainMenu();
     }
 }

@@ -30,8 +30,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        PlayerRotation();
-        ChangeRandomColor();
+        if (!UIMainMenu.Instance.isPause)
+        {
+            PlayerRotation();
+            ChangeRandomColor();
+        }
     }
 
     private void FixedUpdate()
